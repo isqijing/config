@@ -1,0 +1,127 @@
+package main
+
+import (
+	pb "__PATH_PROTO__/__NAME_PROTO__"
+	"context"
+	"encoding/json"
+	"errors"
+	"flag"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"log"
+	"net"
+	"os"
+	"sync"
+	"time"
+)
+
+func init() {
+	log.SetPrefix("TRACE: ")
+	log.SetFlags(log.Ldate | log.Lmicroseconds | log.Llongfile)
+}
+
+
+
+type Data struct {
+__STRUCT_DATA__
+}
+
+
+func main() {
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		server := grpc.NewServer()
+		pb.RegisterConfigServer(server, &ConfigServer{})
+		lis, _ := net.Listen("tcp", "127.0.0.1:2023")
+
+		go func() {
+			time.Sleep(time.Second * 2)
+			wg.Done()
+		}()
+
+		server.Serve(lis)
+	}()
+	time.Sleep(time.Second * 1)
+	conf := Config{}
+	conf.ReadByDefault()
+	conf.ReadByGrpc()
+	conf.ReadByEnv()
+	conf.ReadByFile()
+	conf.ReadByInput()
+
+	if len(conf.Errors) > 0 {
+		for k, v := range conf.Errors {
+			log.Println("error", k, ":", v.Error())
+		}
+		panic("ERROR: PLEASE fix above errors")
+	}
+	log.Println("finally config: ", conf.Data)
+	//for _, v := range conf.Metadata.Change {
+	//	log.Println(v)
+	//}
+
+	wg.Wait()
+}
+
+
+type Config struct {
+	Metadata Metadata `json:"metadata"`
+	Data     Data     `json:"data"`
+	Errors   []error  `json:"errors"`
+}
+
+type Metadata struct {
+	Change Change `json:"change"`
+}
+type Change []string
+
+type ConfigServer struct {
+	pb.UnimplementedConfigServer
+}
+
+func (s *ConfigServer) ReadConfig(ctx context.Context, request *pb.RequestReadConfig) (*pb.ReplyReadConfig, error) {
+	//log.Println(request.FromId)
+	//log.Println(request.FromNickname)
+	//log.Println(request.Content)
+	return &pb.ReplyReadConfig{
+		Code:    200,
+		Content: "{\"is_home\":\"grpc:true\",\"is_company\":\"grpc:false\"}",
+		Count:   1,
+		Msg: &pb.Msg{
+			Success: "success",
+			Fail:    "",
+		},
+	}, nil
+}
+
+
+func (detail *Config) ReadByInput() {
+
+__READ_BY_INPUT__
+
+}
+
+func (detail *Config) ReadByFile() {
+
+__READ_BY_FILE__
+
+}
+
+func (detail *Config) ReadByEnv() {
+
+__READ_BY_ENV__
+
+}
+
+func (detail *Config) ReadByGrpc() {
+
+__READ_BY_GRPC__
+
+}
+
+func (detail *Config) ReadByDefault() {
+
+__READ_BY_DEFAULT__
+
+}

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option go_package = "proto/config";
+
+service Config {
+  rpc ReadConfig (RequestReadConfig) returns (ReplyReadConfig) {};
+}
+
+message RequestReadConfig {
+  string from_id = 1;
+  string from_nickname = 2;
+  string content = 3;
+}
+
+message ReplyReadConfig {
+  uint32 code = 1;
+  string content = 2;
+  uint64 count = 3;
+  Msg msg = 4;
+}
+
+message Msg {
+  string success = 1;
+  string fail = 2;
+}
