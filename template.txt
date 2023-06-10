@@ -1,7 +1,7 @@
 package main
 
 import (
-	pb "__PATH_PROTO__/__NAME_PROTO__"
+	pb "__PATH_PROJECT_PROTO__/__NAME_PROTO__"
 	"context"
 	"encoding/json"
 	"errors"
@@ -56,7 +56,7 @@ func main() {
 		}
 		panic("ERROR: PLEASE fix above errors")
 	}
-	log.Println("finally config: ", conf.Data)
+	log.Println(fmt.Sprintf("%+v", conf.Data))
 	//for _, v := range conf.Metadata.Change {
 	//	log.Println(v)
 	//}

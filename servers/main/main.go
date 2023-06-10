@@ -1,6 +1,7 @@
 package main
 
 import (
+	"config/utils/welcome"
 	"encoding/json"
 	"flag"
 	"golang.org/x/text/cases"
@@ -20,11 +21,20 @@ func init() {
 }
 func main() {
 
+	welcome.Welcome()
+
 	rand.Seed(time.Now().UnixNano())
 	nameProto := "sample_" + strconv.Itoa(rand.Intn(1000000000))
 
+	var pathProjectProto string
+	pathProjectProto = "config/proto/output/proto" // path which your new project'proto
+	flag.StringVar(&pathProjectProto, "path_project_proto", pathProjectProto, "path which your new project'proto")
+	flag.StringVar(&pathProjectProto, "ppp", pathProjectProto, "path which your new project'proto")
+	flag.StringVar(&pathProjectProto, "p", pathProjectProto, "path which your new project'proto")
 	var name string
 	flag.StringVar(&name, "name", nameProto, "${name}.proto")
+	flag.StringVar(&name, "n", nameProto, "${name}.proto")
+
 	flag.Parse()
 
 	nameProto = name
@@ -37,12 +47,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	log.Println(dynamic)
-
-	for k, v := range dynamic {
-		log.Println(k)
-		log.Println(v)
-	}
+	//log.Println(dynamic)
 
 	pathProto := "proto/" + nameProto
 	err = os.Mkdir(pathProto, 0600)
@@ -84,8 +89,10 @@ message Msg {
 		return
 	}
 
+	log.Println("NOT FINISHED, please execute command below:")
 	log.Println("protoc -I=\".\" --go_out=./proto/output ./proto/" + nameProto + "/*.proto")
 	log.Println("protoc -I=\".\" --go-grpc_out=./proto/output ./proto/" + nameProto + "/*proto")
+	log.Println()
 
 	// 生成f_main_config.go
 	byteTemplate, err := os.ReadFile("template.txt")
@@ -105,7 +112,7 @@ message Msg {
 	defer fileModule.Close()
 
 	template := string(byteTemplate)
-	template = strings.ReplaceAll(template, "__PATH_PROTO__", "config/proto/output/proto")
+	template = strings.ReplaceAll(template, "__PATH_PROJECT_PROTO__", pathProjectProto)
 	template = strings.ReplaceAll(template, "__NAME_PROTO__", nameProto)
 	struct_data := ""
 	for k, _ := range dynamic {
