@@ -126,6 +126,8 @@ message Msg {
 	for k, _ := range dynamic {
 		read_by_input += "\tvar " + underscoreToLowerCamel(k) + " string\n"
 		read_by_input += "\tflag.StringVar(&" + underscoreToLowerCamel(k) + ", \"" + k + "\", detail.Data." + underscoreToCamel(k) + ", \"" + "usage unimplement" + "\")\n"
+		read_by_input += "\tflag.Parse()\n"
+
 		read_by_input += "\tdetail.Metadata.Change = append(detail.Metadata.Change, \"input\", " + underscoreToLowerCamel(k) + ")\n"
 		read_by_input_assign = append(read_by_input_assign, "\tdetail.Data."+underscoreToCamel(k)+" = "+underscoreToLowerCamel(k)+"\n")
 	}

@@ -13,4 +13,8 @@ xcopy /y template.txt build\
 
 xcopy /y dynamic.json build\
 
+mkdir build\config
+mkdir build\output
+mkdir build\proto\output\proto
+
 exit
