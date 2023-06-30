@@ -7,6 +7,9 @@ go build -p 4 -o build/main_config.exe servers/main/main.go
 :: SET GOOS=linux
 :: go build -p 4 -o build/main_config.bin servers/main/main.go
 
+:: build mac if you need
+SET GOOS=darwin
+go build -o ./build/main_config servers/main/main.go
 
 :: copy template.txt dynamic.json
 xcopy /y template.txt build\

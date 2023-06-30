@@ -144,6 +144,7 @@ message Msg {
 		detail.Errors = append(detail.Errors, err)
 	}
 	detail.Metadata.Change = append(detail.Metadata.Change, "file", string(file))
+	detail.Data = data
 `
 	template = strings.ReplaceAll(template, "__READ_BY_FILE__", read_by_file)
 
