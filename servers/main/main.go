@@ -1,6 +1,7 @@
 package main
 
 import (
+	"config/utils/copy_dir"
 	"config/utils/welcome"
 	"encoding/json"
 	"flag"
@@ -50,7 +51,7 @@ func main() {
 	//log.Println(dynamic)
 
 	pathProto := "proto/" + nameProto
-	err = os.Mkdir(pathProto, 0600)
+	err = os.MkdirAll(pathProto, 0600)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -100,8 +101,8 @@ message Msg {
 		log.Fatalln(err)
 	}
 	//log.Println(string(byteTemplate))
-	pathOutputMain := "output/your_main_" + nameProto
-	err = os.Mkdir(pathOutputMain, 0600)
+	pathOutputMain := "output/servers/main_" + nameProto
+	err = os.MkdirAll(pathOutputMain, 0600)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -207,6 +208,11 @@ message Msg {
 	defer fileConfig.Close()
 
 	fileConfig.WriteString(string(open))
+
+	_, err = copy_dir.CopyDir("webserver", "output")
+	if err != nil {
+		return
+	}
 
 }
 

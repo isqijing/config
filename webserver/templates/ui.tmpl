@@ -5,10 +5,7 @@
     <title>七镜配置</title>
 </head>
 <script>
-    var configs = {
-        "is_company": "true",
-        "is_home": "false"
-    }
+    var configs = JSON.parse({{ .dynamic }})
 
     function handle_click() {
         console.log('hi')
@@ -36,10 +33,9 @@
 <body>
 <div>
     <div>
-        <label>is_company</label>
-        <input value="true" onchange="configs['is_company'] = this.value"/>
-        <label>is_home</label>
-        <input value="false" onchange="configs['is_home'] = this.value"/>
+{{ range $key, $value := .table }}
+        <label>{{ $key }}</label><input value="{{ $value }}" onchange="configs['{{ $key }}'] = this.value"></input>
+{{ end }}
     </div>
     <div>
         <button onclick="handle_click()">保存</button>

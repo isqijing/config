@@ -3,5 +3,6 @@ rmdir /S output
 rmdir /S proto
 
 mkdir config
-mkdir output
+mkdir output\servers
 mkdir proto\output\proto
+
