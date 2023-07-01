@@ -8,8 +8,8 @@ go build -p 4 -o build/main_config.exe servers/main/main.go
 :: go build -p 4 -o build/main_config.bin servers/main/main.go
 
 :: build mac if you need
-SET GOOS=darwin
-go build -o ./build/main_config servers/main/main.go
+:: SET GOOS=darwin
+:: go build -o ./build/main_config servers/main/main.go
 
 :: copy template.txt dynamic.json
 xcopy /y template.txt build\
@@ -19,5 +19,8 @@ xcopy /y dynamic.json build\
 mkdir build\config
 mkdir build\output
 mkdir build\proto\output\proto
+
+mkdir build\webserver
+xcopy /y/e webserver  build\webserver\
 
 exit

@@ -1,15 +1,18 @@
 package main
 
 import (
+	"config/middlewares"
 	pb "config/proto/output/proto/config"
 	"context"
 	"encoding/json"
 	"errors"
 	"flag"
+	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"sync"
 	"time"
@@ -85,7 +88,53 @@ func main() {
 	//for _, v := range conf.Metadata.Change {
 	//	log.Println(v)
 	//}
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		router := gin.Default()
+		gin.ForceConsoleColor()
+		router.Use(middlewares.Cors())
+		router.LoadHTMLGlob("webserver/templates/*")
+		router.StaticFile("/favicon.ico", "webserver/static/ico/favicon.ico")
+
+		routerConfig := router.Group("/")
+		{
+			routerConfig.GET("/config", func(c *gin.Context) {
+				c.HTML(http.StatusOK, "ui.tmpl", gin.H{
+					"title": "七镜配置",
+				})
+			})
+			routerConfig.POST("/config/update", func(c *gin.Context) {
+				var data Data
+				err := c.BindJSON(&data)
+				if err != nil {
+					log.Println(err)
+					c.JSON(http.StatusOK, err)
+					return
+				}
+				conf.Data = data
+				byteConfig, err := json.Marshal(conf.Data)
+				if err != nil {
+					c.JSON(http.StatusOK, err)
+					return
+				}
+				err = os.WriteFile("config/config_config.json", byteConfig, 0600)
+				if err != nil {
+					c.JSON(http.StatusOK, err)
+					return
+				}
+
+				c.JSON(http.StatusOK, map[string]string{"msg": "配置更新完毕，已写入配置文件，重启应用即可生效"})
+
+			})
+		}
+		router.Run(":8081")
+	}()
 	wg.Wait()
+}
+
+func (detail *Config) ReadByUi() {
+
 }
 
 func (detail *Config) ReadByInput() {

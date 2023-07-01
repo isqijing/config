@@ -192,6 +192,10 @@ message Msg {
 	}
 
 	template = strings.ReplaceAll(template, "__READ_BY_DEFAULT__", read_by_default)
+
+	read_by_ui := nameProto
+	template = strings.ReplaceAll(template, "__READ_BY_UI__", read_by_ui)
+
 	_, err = fileModule.Write([]byte(template))
 	if err != nil {
 		log.Fatalln(err)
@@ -201,6 +205,7 @@ message Msg {
 		log.Fatalln(err)
 	}
 	defer fileConfig.Close()
+
 	fileConfig.WriteString(string(open))
 
 }

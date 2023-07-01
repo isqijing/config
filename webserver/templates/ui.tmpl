@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>七镜配置</title>
+</head>
+<script>
+    var configs = {
+        "is_company": "true",
+        "is_home": "false"
+    }
+
+    function handle_click() {
+        console.log('hi')
+        console.log(configs)
+        fetch('/config/update', {
+            method: "post",
+            headers: {
+
+                ["content-type"]: "application/json"
+            },
+            body: JSON.stringify(configs)
+        })
+            .then(response => response.json())
+            .then(result => {
+                console.log("result", result)
+                alert(result.msg)
+            })
+            .catch(e => {
+                console.error(e)
+            })
+    }
+
+
+</script>
+<body>
+<div>
+    <div>
+        <label>is_company</label>
+        <input value="true" onchange="configs['is_company'] = this.value"/>
+        <label>is_home</label>
+        <input value="false" onchange="configs['is_home'] = this.value"/>
+    </div>
+    <div>
+        <button onclick="handle_click()">保存</button>
+    </div>
+    <div>
+        README.md
+    </div>
+</div>
+</body>
+</html>
