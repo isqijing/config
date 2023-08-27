@@ -28,14 +28,18 @@ func main() {
 	nameProto := "sample_" + strconv.Itoa(rand.Intn(1000000000))
 
 	var pathProjectProto string
-	pathProjectProto = "config_test/proto/output/proto" // path which your new project'proto // 测试名称，
-	//pathProjectProto = "config/proto/output/proto" // path which your new project'proto
+	pathProjectProto = "config/proto/output/proto" // path which your new project'proto
 	flag.StringVar(&pathProjectProto, "path_project_proto", pathProjectProto, "path which your new project'proto")
 	flag.StringVar(&pathProjectProto, "ppp", pathProjectProto, "path which your new project'proto")
 	flag.StringVar(&pathProjectProto, "p", pathProjectProto, "path which your new project'proto")
 	var name string
 	flag.StringVar(&name, "name", nameProto, "name which you like. final example: ${name}.proto")
 	flag.StringVar(&name, "n", nameProto, "name which you like. final example: ${name}.proto")
+
+	var pathWebserver string
+	pathWebserver = "sample_" + strconv.Itoa(rand.Intn(1000000000))
+	flag.StringVar(&pathWebserver, "path_webserver", pathWebserver, "webserver'path which you like. final example: qijing_config")
+	flag.StringVar(&pathWebserver, "pw", pathWebserver, "webserver'path which you like. final example: qijing_config")
 
 	flag.Parse()
 
@@ -116,6 +120,7 @@ message Msg {
 	template := string(byteTemplate)
 	template = strings.ReplaceAll(template, "__PATH_PROJECT_PROTO__", pathProjectProto)
 	template = strings.ReplaceAll(template, "__NAME_PROTO__", nameProto)
+	template = strings.ReplaceAll(template, "__PATH_WEBSERVER__", pathWebserver)
 	struct_data := ""
 	for k, _ := range dynamic {
 		struct_data += "\t" + underscoreToCamel(k) + "\tstring `json:\"" + k + "\"`\n"
@@ -210,10 +215,15 @@ message Msg {
 
 	fileConfig.WriteString(string(open))
 
-	_, err = copy_dir.CopyDir("webserver", "output")
+	_, err = copy_dir.CopyDir("webserver/sample", "output/webserver")
 	if err != nil {
 		return
 	}
+	err = os.Rename("output/webserver/sample", "output/webserver/"+pathWebserver)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	_, err = copy_dir.CopyDir("output/webserver/"+pathWebserver, "webserver")
 
 }
 

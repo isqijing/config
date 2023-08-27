@@ -92,11 +92,12 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
+		pathWebserver := "sample"
 		router := gin.Default()
 		gin.ForceConsoleColor()
 		router.Use(Cors())
-		router.LoadHTMLGlob("webserver/templates/*")
-		router.StaticFile("/favicon.ico", "webserver/static/ico/favicon.ico")
+		router.LoadHTMLGlob("webserver/" + pathWebserver + "/templates/*")
+		router.StaticFile("/favicon.ico", "webserver/"+pathWebserver+"/static/ico/favicon.ico")
 
 		routerConfig := router.Group("/")
 		{
@@ -140,6 +141,7 @@ func main() {
 
 			})
 		}
+		log.Println("wait a minute, you can access http://localhost:8081/config")
 		router.Run(":8081")
 	}()
 	wg.Wait()

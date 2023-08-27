@@ -23,4 +23,7 @@ mkdir build\proto\output\proto
 mkdir build\webserver
 xcopy /y/e webserver  build\webserver\
 
+xcopy /y clean.*  build\
+xcopy /y README.* build\
+
 exit
