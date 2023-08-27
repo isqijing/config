@@ -28,13 +28,14 @@ func main() {
 	nameProto := "sample_" + strconv.Itoa(rand.Intn(1000000000))
 
 	var pathProjectProto string
-	pathProjectProto = "config/proto/output/proto" // path which your new project'proto
+	pathProjectProto = "config_test/proto/output/proto" // path which your new project'proto // 测试名称，
+	//pathProjectProto = "config/proto/output/proto" // path which your new project'proto
 	flag.StringVar(&pathProjectProto, "path_project_proto", pathProjectProto, "path which your new project'proto")
 	flag.StringVar(&pathProjectProto, "ppp", pathProjectProto, "path which your new project'proto")
 	flag.StringVar(&pathProjectProto, "p", pathProjectProto, "path which your new project'proto")
 	var name string
-	flag.StringVar(&name, "name", nameProto, "${name}.proto")
-	flag.StringVar(&name, "n", nameProto, "${name}.proto")
+	flag.StringVar(&name, "name", nameProto, "name which you like. final example: ${name}.proto")
+	flag.StringVar(&name, "n", nameProto, "name which you like. final example: ${name}.proto")
 
 	flag.Parse()
 

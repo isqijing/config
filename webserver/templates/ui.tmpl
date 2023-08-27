@@ -34,7 +34,7 @@
 <div>
     <div>
 {{ range $key, $value := .table }}
-        <label>{{ $key }}</label><input value="{{ $value }}" onchange="configs['{{ $key }}'] = this.value"></input>
+        <label>{{ $key }}</label><input value="{{ $value }}" onchange="configs['{{ $key }}'] = this.value.replace('\n','').replace(' ','')"></input>
 {{ end }}
     </div>
     <div>

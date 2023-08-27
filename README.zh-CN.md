@@ -35,12 +35,17 @@
 
 1. 编辑 `dynamic.json`， 输入你的工具程序想要配置的参数，key 的命令规范需要使用下划线风格（暂不支持驼峰命令）。
 2. 执行 `servers/main/main.go`，即可生成代码，输出到`output` 文件夹
-1. 输出`*.pb.go`
+3. 输出`*.pb.go`
 ```
 protoc -I="." --go_out=./proto/output ./proto/config/*.proto
 ```
 
-2. 输出`*_grpc.pb.go`
+4. 输出`*_grpc.pb.go`
 ```
 protoc -I="." --go-grpc_out=./proto/output ./proto/config/*proto
 ```
+## 五、清理生成的测试文件
+
+```./clean.bat```
+
+![](./static/image/5.1.png)
