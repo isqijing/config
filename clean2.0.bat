@@ -1,0 +1,1 @@
+wsl ./clean2.0.sh
