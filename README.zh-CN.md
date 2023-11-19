@@ -32,6 +32,7 @@
 3. 配置的key 和value为了简化，都只使用字符串类型
 
 ## 四、快速开始
+### （1.0 版本）
 
 1. 编辑 `dynamic.json`， 输入你的工具程序想要配置的参数，key 的命令规范需要使用下划线风格（暂不支持驼峰命令）。
 2. 执行 `servers/main/main.go`，即可生成代码，输出到`output` 文件夹
@@ -44,8 +45,22 @@ protoc -I="." --go_out=./proto/output ./proto/config/*.proto
 ```
 protoc -I="." --go-grpc_out=./proto/output ./proto/config/*proto
 ```
+
+### （2.0 版本）
+
+1. 编辑 `dynamic.json`， 输入你的工具程序想要配置的参数，key 的命令规范需要使用下划线风格（暂不支持驼峰命令）。
+2. 执行 `servers/main2.0/main.go`，即可生成代码，输出到`output2.0` 文件夹
+3. 根据控制台提示，输出`*.pb.go`
+![](./static/image/4.3.png)
+
+
 ## 五、清理生成的测试文件
 
+### （1.0 版本）
 ```./clean.bat```
 
 ![](./static/image/5.1.png)
+
+### （2.0 版本）
+```./clean2.0.bat```
+
