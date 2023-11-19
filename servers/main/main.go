@@ -29,17 +29,17 @@ func main() {
 
 	var pathProjectProto string
 	pathProjectProto = "config/proto/output/proto" // path which your new project'proto
-	flag.StringVar(&pathProjectProto, "path_project_proto", pathProjectProto, "path which your new project'proto")
-	flag.StringVar(&pathProjectProto, "ppp", pathProjectProto, "path which your new project'proto")
-	flag.StringVar(&pathProjectProto, "p", pathProjectProto, "path which your new project'proto")
+	flag.StringVar(&pathProjectProto, "path_project_proto", pathProjectProto, "path which your new project'proto; The directory of top level MUST be your project name and you MUST cp `./proto/*` to  `${path_project_proto}`")
+	flag.StringVar(&pathProjectProto, "ppp", pathProjectProto, "path which your new project'proto; The directory of top level MUST be your project name and you MUST cp `./proto/*` to  `${path_project_proto}`")
+	flag.StringVar(&pathProjectProto, "p", pathProjectProto, "path which your new project'proto; The directory of top level MUST be your project name and you MUST cp `./proto/*` to  `${path_project_proto}`")
 	var name string
 	flag.StringVar(&name, "name", nameProto, "name which you like. final example: ${name}.proto")
 	flag.StringVar(&name, "n", nameProto, "name which you like. final example: ${name}.proto")
 
 	var pathWebserver string
 	pathWebserver = "sample_" + strconv.Itoa(rand.Intn(1000000000))
-	flag.StringVar(&pathWebserver, "path_webserver", pathWebserver, "webserver'path which you like. final example: qijing_config")
-	flag.StringVar(&pathWebserver, "pw", pathWebserver, "webserver'path which you like. final example: qijing_config")
+	flag.StringVar(&pathWebserver, "path_webserver", pathWebserver, "webserver'path which you like. final example: qijing_config; The directory of top level MUST be your project name")
+	flag.StringVar(&pathWebserver, "pw", pathWebserver, "webserver'path which you like. final example: qijing_config; The directory of top level MUST be your project name")
 
 	flag.Parse()
 
