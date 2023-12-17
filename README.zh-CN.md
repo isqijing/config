@@ -53,6 +53,8 @@ protoc -I="." --go-grpc_out=./proto/output ./proto/config/*proto
 3. 根据控制台提示，输出`*.pb.go`
 ![](./static/image/4.3.png)
 
+### 2.0 版本build之后的用法示例
+```main_config.exe -np base -pp clipboard_qijing -pm modules -pw webserver -pc qijing_config -po output2.0```
 
 ## 五、清理生成的测试文件
 

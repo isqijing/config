@@ -184,6 +184,19 @@ func ReadConfig(interfaceReqReadConfig interface{}) (err error, conf Config) {
                 })
             }
             log.Println("wait a minute, you can access http://localhost:8081/config")
+			go func() {
+				// 定义要打开的网址
+				url := "http://localhost:8081/config"
+
+				// 调用系统的打开链接命令
+				err := exec.Command("cmd", "/c", "start", url).Start()
+
+				if err != nil {
+					fmt.Println(err)
+				} else {
+					fmt.Println("网址已成功打开")
+				}
+			}()
             router.Run(":8081")
         }()
 	}
